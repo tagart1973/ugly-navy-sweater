@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop All Sweaters - UglyNavySweater.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0a1f3c">
+<meta name="description" content="Shop all Navy ugly Christmas sweaters. Arleigh Burke, Nimitz, Zumwalt, Submarine, Amphibious and more. Real products from Harvest Market.">
+<style>
+:root {
+  --navy: #0a1f3c;
+  --navy-2: #0d2848;
+  --navy-3: #163456;
+  --navy-4: #1f4068;
+  --signal-red: #c41e3a;
+  --signal-red-dark: #a01530;
+  --gold: #c9a227;
+  --gold-light: #e0b73a;
+  --cream: #f5f0e8;
+  --cream-2: #ede6d8;
+  --off-white: #faf7f0;
+  --white: #ffffff;
+  --muted: #6b7d92;
+  --border: rgba(201, 162, 39, 0.25);
+  --shadow: 0 2px 12px rgba(10, 31, 60, 0.08);
+  --shadow-md: 0 4px 20px rgba(10, 31, 60, 0.12);
+  --shadow-lg: 0 8px 32px rgba(10, 31, 60, 0.18);
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-heading: 'Oswald', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --max-width: 1280px;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--cream); color: var(--navy); line-height: 1.6; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; background: var(--cream); border-bottom: 1px solid var(--border); box-shadow: var(--shadow); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; gap: 16px; }
+.nav-logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 1.5rem; letter-spacing: 0.05em; color: var(--navy); }
+.nav-logo span { color: var(--signal-red); }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-link { font-family: var(--font-heading); font-weight: 500; font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); transition: var(--transition); }
+.nav-link:hover { color: var(--signal-red); }
+@media (max-width: 768px) { .nav-links { display: none; } }
+
+/* HEADER */
+.shop-header { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%); color: var(--white); padding: 60px 0 40px; text-align: center; position: relative; overflow: hidden; }
+.shop-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 50%, rgba(201,162,39,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(196,30,58,0.08) 0%, transparent 50%); }
+.shop-header h1 { font-family: var(--font-display); font-size: 3.5rem; letter-spacing: 0.03em; position: relative; }
+.shop-header p { font-family: var(--font-heading); font-size: 1.1rem; color: var(--gold-light); margin-top: 8px; position: relative; }
+.shop-header .count-badge { display: inline-block; margin-top: 16px; background: rgba(201,162,39,0.2); border: 1px solid var(--gold); color: var(--gold-light); font-family: var(--font-heading); font-weight: 600; font-size: 0.9rem; padding: 6px 20px; border-radius: 20px; position: relative; }
+
+/* VIEW TOGGLE */
+.view-toggle { display: inline-flex; gap: 4px; border: 1px solid var(--border); border-radius: var(--radius); padding: 2px; background: var(--white); }
+.view-toggle-btn { padding: 6px 14px; border-radius: 6px; font-family: var(--font-heading); font-weight: 600; font-size: 0.82rem; color: var(--muted); transition: var(--transition); text-transform: uppercase; letter-spacing: 0.03em; }
+.view-toggle-btn.active { background: var(--navy); color: var(--white); }
+
+/* PRODUCT COUNTER */
+.product-counter { font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; color: var(--muted); padding: 0 0 12px 0; }
+
+/* LIST VIEW */
+.product-grid.list-view { grid-template-columns: 1fr !important; }
+.product-grid.list-view .product-card { display: grid; grid-template-columns: 200px 1fr; }
+.product-grid.list-view .product-visual { padding-top: 200px; }
+.product-grid.list-view .product-info { padding: 20px; }
+
+/* PAGE TRANSITION ANIMATION */
+.product-grid.page-transition { opacity: 0; transform: translateY(12px); }
+.product-grid { transition: opacity 0.3s ease, transform 0.3s ease; }
+
+/* STICKY FILTER BAR */
+.filter-bar.sticky { position: sticky; top: 0; z-index: 90; background: var(--cream); box-shadow: 0 4px 12px rgba(10,31,60,0.1); border-radius: 0; margin: 0 -20px; padding: 16px 20px; }
+
+/* PRICE RANGE FILTER */
+.price-range-group { display: flex; align-items: center; gap: 8px; }
+.price-range-input { width: 70px; padding: 6px 8px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--white); color: var(--navy); font-family: var(--font-body); font-size: 0.82rem; text-align: center; }
+.price-range-input:focus { outline: none; border-color: var(--navy); }
+.price-range-sep { font-family: var(--font-heading); color: var(--muted); font-size: 0.85rem; }
+.price-apply-btn { padding: 6px 14px; border-radius: var(--radius); background: var(--navy); color: var(--white); font-family: var(--font-heading); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer; border: none; }
+
+/* FILTERS */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 16px; padding: 24px 0; align-items: center; justify-content: space-between; }
+.filter-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.filter-label { font-family: var(--font-heading); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-right: 4px; }
+.filter-btn { font-family: var(--font-heading); font-weight: 500; font-size: 0.85rem; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--white); color: var(--navy); transition: var(--transition); }
+.filter-btn:hover { border-color: var(--navy); }
+.filter-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.sort-select { padding: 8px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--white); color: var(--navy); font-family: var(--font-body); font-size: 0.88rem; }
+.sort-select:focus { outline: none; border-color: var(--navy); }
+
+/* PRODUCT GRID */
+.product-section { padding: 20px 0 80px; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+.product-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; }
+.product-card:hover { box-shadow: var(--shadow-lg); }
+.product-visual { position: relative; width: 100%; padding-top: 100%; overflow: hidden; background: #ede6d8; }
+.product-visual img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.product-badge { position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); color: var(--white); font-family: var(--font-heading); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 4px 10px; border-radius: 12px; backdrop-filter: blur(4px); }
+.product-info { padding: 16px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.product-name { font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; color: var(--navy); line-height: 1.3; }
+.product-card:hover .product-name { color: var(--signal-red); }
+.community-tag { display: inline-block; font-family: var(--font-heading); font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 3px 10px; border-radius: 12px; background: var(--cream-2); color: var(--muted); }
+.tag-surface { background: #e3eaf2; color: var(--navy-4); }
+.tag-sub { background: #d4e8e8; color: #0d5c5c; }
+.tag-aviation { background: #dde6f0; color: var(--navy-3); }
+.tag-amphib { background: #d4e8d8; color: #2d5f3e; }
+.tag-seabees { background: #f0e6cc; color: #8a6d1f; }
+.tag-chiefs { background: #e6dcc8; color: #6b5a2e; }
+.tag-veteran { background: #ecdde6; color: #5a2d4a; }
+.product-type-label { font-family: var(--font-heading); font-size: 0.78rem; color: var(--muted); text-transform: capitalize; }
+.product-price-row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 8px; }
+.product-price { font-family: var(--font-heading); font-weight: 700; font-size: 1.2rem; color: var(--signal-red); }
+.product-sizes { font-size: 0.78rem; color: var(--muted); }
+.product-actions { display: flex; gap: 8px; margin-top: 10px; }
+
+/* BUTTONS */
+.btn { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 18px; border-radius: var(--radius); transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+.btn-primary { background: var(--signal-red); color: var(--white); }
+.btn-primary:hover { background: var(--signal-red-dark); transform: translateY(-1px); }
+.btn-navy { background: var(--navy); color: var(--white); }
+.btn-navy:hover { background: var(--navy-3); }
+.btn-gold { background: var(--gold); color: var(--navy); }
+.btn-gold:hover { background: var(--gold-light); }
+.btn-outline { border: 1px solid var(--border); background: transparent; color: var(--navy); }
+.btn-outline:hover { border-color: var(--navy); background: var(--cream); }
+.btn-sm { padding: 6px 14px; font-size: 0.78rem; }
+
+/* PAGINATION */
+.pagination { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 40px; flex-wrap: wrap; }
+.page-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--white); color: var(--navy); font-family: var(--font-heading); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.page-btn:hover { border-color: var(--navy); }
+.page-btn.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.page-info { font-family: var(--font-heading); font-size: 0.85rem; color: var(--muted); }
+
+/* NO RESULTS */
+.no-results { text-align: center; padding: 80px 20px; color: var(--muted); }
+.no-results h3 { font-family: var(--font-display); font-size: 2rem; color: var(--navy); margin-bottom: 8px; }
+
+/* QUICK VIEW MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(10,31,60,0.7); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.active { display: flex; }
+.qv-content { background: var(--white); border-radius: var(--radius-lg); max-width: 900px; width: 100%; max-height: 90vh; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; }
+@media (max-width: 768px) { .qv-content { grid-template-columns: 1fr; } }
+.qv-image { position: relative; background: var(--cream-2); aspect-ratio: 1; overflow: hidden; }
+.qv-image img { width: 100%; height: 100%; object-fit: cover; }
+.qv-details { padding: 30px; display: flex; flex-direction: column; gap: 12px; }
+.qv-details h2 { font-family: var(--font-display); font-size: 1.8rem; color: var(--navy); line-height: 1.2; }
+.qv-details .qv-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.5; }
+.qv-details .qv-price { font-family: var(--font-heading); font-weight: 700; font-size: 1.5rem; color: var(--signal-red); }
+.qv-sizes { display: flex; flex-wrap: wrap; gap: 6px; }
+.qv-size { padding: 6px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--font-heading); font-size: 0.82rem; color: var(--navy); cursor: pointer; transition: var(--transition); }
+.qv-size:hover { border-color: var(--navy); background: var(--cream); }
+.qv-size.selected { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.qv-close { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.5); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; z-index: 10; }
+.qv-shopify-link { display: flex; align-items: center; gap: 6px; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; color: var(--navy); margin-top: 8px; }
+.qv-shopify-link:hover { color: var(--signal-red); }
+
+/* LOADING */
+.loading { text-align: center; padding: 60px; color: var(--muted); font-family: var(--font-heading); }
+.spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--navy); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* FOOTER */
+.footer { background: var(--navy); color: var(--white); padding: 40px 0; text-align: center; }
+.footer p { font-family: var(--font-heading); font-size: 0.85rem; color: var(--muted-light); }
+.footer a { color: var(--gold); }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .shop-header h1 { font-size: 2.5rem; }
+  .product-grid { grid-template-columns: 1fr; }
+  .filter-bar { flex-direction: column; align-items: flex-start; }
+}
+
+/* BATCH 91-100: DARK MODE */
+body.dark { background: #0a1018; color: #f5f0e8; }
+body.dark .nav { background: #0a1018; border-bottom-color: rgba(201,162,39,0.15); }
+body.dark .nav-logo { color: #f5f0e8; }
+body.dark .nav-link { color: #f5f0e8; }
+body.dark .shop-header { background: linear-gradient(135deg, #050810 0%, #0a1f3c 100%); }
+body.dark .filter-bar { background: transparent; }
+body.dark .filter-bar.sticky { background: #0a1018; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+body.dark .filter-btn { background: #0d1520; color: #f5f0e8; border-color: rgba(201,162,39,0.15); }
+body.dark .filter-btn:hover { border-color: var(--gold); }
+body.dark .filter-btn.active { background: var(--navy-3); color: var(--gold-light); border-color: var(--gold); }
+body.dark .sort-select { background: #0d1520; color: #f5f0e8; border-color: rgba(201,162,39,0.15); }
+body.dark .price-range-input { background: #0d1520; color: #f5f0e8; border-color: rgba(201,162,39,0.15); }
+body.dark .product-card { background: #0d1520; border-color: rgba(201,162,39,0.1); }
+body.dark .product-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.4); }
+body.dark .product-name { color: #f5f0e8; }
+body.dark .product-card:hover .product-name { color: var(--gold-light); }
+body.dark .product-type-label { color: var(--muted-light); }
+body.dark .product-sizes { color: var(--muted-light); }
+body.dark .community-tag { background: #1a2535; color: var(--muted-light); }
+body.dark .qv-content { background: #0d1520; }
+body.dark .qv-details h2 { color: #f5f0e8; }
+body.dark .qv-details .qv-desc { color: var(--muted-light); }
+body.dark .qv-size { background: #0a1018; color: #f5f0e8; border-color: rgba(201,162,39,0.15); }
+body.dark .qv-size:hover { background: #1a2535; }
+body.dark .qv-size.selected { background: var(--navy-3); color: var(--gold-light); }
+body.dark .product-counter { color: var(--muted-light); }
+body.dark .no-results h3 { color: #f5f0e8; }
+body.dark .no-results p { color: var(--muted-light); }
+body.dark .footer { background: #050810; }
+body.dark .view-toggle { background: #0d1520; }
+body.dark .view-toggle-btn { color: var(--muted-light); }
+body.dark .view-toggle-btn.active { background: var(--navy-3); color: var(--gold-light); }
+body.dark .price-apply-btn { background: var(--navy-3); }
+.dark-mode-toggle { display: flex; align-items: center; gap: 6px; cursor: pointer; font-family: var(--font-heading); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--navy); background: none; border: none; transition: var(--transition); }
+.dark-mode-toggle:hover { color: var(--signal-red); }
+.dark-mode-toggle svg { width: 18px; height: 18px; }
+body.dark .dark-mode-toggle { color: var(--gold-light); }
+body.dark .dark-mode-toggle .sun-icon { display: none; }
+body.dark .dark-mode-toggle .moon-icon { display: block; }
+.dark-mode-toggle .moon-icon { display: none; }
+body.dark .price-range-display { color: var(--gold-light); background: rgba(201,162,39,0.1); border-color: rgba(201,162,39,0.2); }
+
+/* NO RESULTS ILLUSTRATION */
+.no-results-illustration { width: 120px; height: 120px; margin: 0 auto 24px; color: var(--muted); opacity: 0.5; }
+.no-results-illustration svg { width: 100%; height: 100%; }
+.no-results-subtitle { font-family: var(--font-heading); font-size: 0.95rem; color: var(--muted); margin-top: 12px; }
+.no-results-reset { display: inline-block; margin-top: 20px; padding: 10px 28px; border-radius: var(--radius); background: var(--navy); color: var(--white); font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer; border: none; transition: var(--transition); }
+.no-results-reset:hover { background: var(--navy-3); transform: translateY(-1px); }
+
+/* RECENTLY VIEWED */
+.recently-viewed-section { padding: 40px 0 60px; background: var(--cream-2); }
+.recently-viewed-title { font-family: var(--font-display); font-size: 1.8rem; color: var(--navy); margin-bottom: 20px; text-align: center; letter-spacing: 0.03em; }
+.recently-viewed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.recently-viewed-card { background: var(--white); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: var(--transition); border: 1px solid var(--border); }
+.recently-viewed-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.recently-viewed-visual { position: relative; width: 100%; padding-top: 100%; overflow: hidden; background: var(--cream-2); }
+.recently-viewed-visual img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.recently-viewed-info { padding: 12px; }
+.recently-viewed-name { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; color: var(--navy); line-height: 1.3; margin-bottom: 4px; }
+.recently-viewed-price { font-family: var(--font-heading); font-weight: 700; font-size: 1rem; color: var(--signal-red); }
+body.dark .recently-viewed-section { background: #050810; }
+body.dark .recently-viewed-title { color: #f5f0e8; }
+body.dark .recently-viewed-card { background: #0d1520; border-color: rgba(201,162,39,0.1); }
+body.dark .recently-viewed-name { color: #f5f0e8; }
+body.dark .recently-viewed-visual { background: #0a1018; }
+
+/* PRICE RANGE DISPLAY */
+.price-range-display { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; background: rgba(201,162,39,0.08); border: 1px solid rgba(201,162,39,0.2); font-family: var(--font-heading); font-weight: 600; font-size: 0.82rem; color: var(--navy); margin-left: 8px; }
+.price-range-display .price-range-label { text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); font-size: 0.75rem; }
+.price-range-display .price-range-value { color: var(--signal-red); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="ugly-navy-sweater.html" class="nav-logo">UGLY NAVY <span>SWEATER</span></a>
+    <div class="nav-links">
+      <a href="ugly-navy-sweater.html" class="nav-link">Home</a>
+      <a href="shop.html" class="nav-link" style="color:var(--signal-red);">Shop</a>
+      <button class="dark-mode-toggle" id="darkModeToggle" onclick="toggleDarkMode()" title="Toggle dark mode" aria-label="Toggle dark mode">
+        <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HEADER -->
+<section class="shop-header">
+  <div class="container">
+    <h1>ALL SWEATERS</h1>
+    <p>Navy ugly Christmas sweaters from Harvest Market</p>
+    <div class="count-badge" id="countBadge">Loading products...</div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="product-section">
+  <div class="container">
+    <!-- FILTERS -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <span class="filter-label">Community:</span>
+        <button class="filter-btn active" data-filter="community" data-value="all" onclick="setFilter(this)">All</button>
+        <button class="filter-btn" data-filter="community" data-value="surface" onclick="setFilter(this)">Surface</button>
+        <button class="filter-btn" data-filter="community" data-value="sub" onclick="setFilter(this)">Submarine</button>
+        <button class="filter-btn" data-filter="community" data-value="aviation" onclick="setFilter(this)">Aviation</button>
+        <button class="filter-btn" data-filter="community" data-value="amphib" onclick="setFilter(this)">Amphibious</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Type:</span>
+        <button class="filter-btn active" data-filter="productType" data-value="all" onclick="setFilter(this)">All</button>
+        <button class="filter-btn" data-filter="productType" data-value="knit-a" onclick="setFilter(this)">Knit A</button>
+        <button class="filter-btn" data-filter="productType" data-value="knit-b" onclick="setFilter(this)">Knit B</button>
+        <button class="filter-btn" data-filter="productType" data-value="knit-c" onclick="setFilter(this)">Knit C</button>
+        <button class="filter-btn" data-filter="productType" data-value="sweatshirt" onclick="setFilter(this)">Sweatshirt</button>
+        <button class="filter-btn" data-filter="productType" data-value="christmas" onclick="setFilter(this)">Christmas</button>
+        <button class="filter-btn" data-filter="productType" data-value="full-print-tee" onclick="setFilter(this)">Full Print Tee</button>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Sort:</span>
+        <select class="sort-select" id="sortSelect" onchange="loadProducts()">
+          <option value="default">Fleet Order</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+          <option value="name">A-Z</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Price:</span>
+        <div class="price-range-group">
+          <input type="number" class="price-range-input" id="priceMin" placeholder="Min" min="0">
+          <span class="price-range-sep">&mdash;</span>
+          <input type="number" class="price-range-input" id="priceMax" placeholder="Max" min="0">
+          <button class="price-apply-btn" onclick="applyPriceRange()">Go</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">View:</span>
+        <div class="view-toggle">
+          <button class="view-toggle-btn active" id="gridViewBtn" onclick="setView('grid')">Grid</button>
+          <button class="view-toggle-btn" id="listViewBtn" onclick="setView('list')">List</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUCT COUNTER -->
+    <div class="product-counter" id="productCounter">Loading products...
+      <span class="price-range-display" id="priceRangeDisplay" style="display:none;">
+        <span class="price-range-label">Price Range:</span>
+        <span class="price-range-value" id="priceRangeValue">$0.00 - $0.00</span>
+      </span>
+    </div>
+
+    <!-- GRID -->
+    <div class="product-grid" id="productGrid">
+      <div class="loading"><div class="spinner"></div>Loading products...</div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination" id="pagination" style="display:none;">
+      <button class="page-btn" id="prevBtn" onclick="changePage(-1)">&#8592;</button>
+      <span class="page-info" id="pageInfo"></span>
+      <button class="page-btn" id="nextBtn" onclick="changePage(1)">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal-overlay" id="quickViewModal" onclick="closeQuickView(event)">
+  <div class="qv-content" onclick="event.stopPropagation()">
+    <div class="qv-image" id="qvImage"></div>
+    <div class="qv-details" id="qvDetails"></div>
+  </div>
+</div>
+
+<!-- RECENTLY VIEWED -->
+<section class="recently-viewed-section" id="recentlyViewedSection" style="display:none;">
+  <div class="container">
+    <h2 class="recently-viewed-title">Recently Viewed</h2>
+    <div class="recently-viewed-grid" id="recentlyViewedGrid"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <p>UglyNavySweater.com &mdash; Same Sea. Uglier Sweaters. &mdash; <a href="ugly-navy-sweater.html">Back to Home</a></p>
+  </div>
+</footer>
+
+<script>
+var API_BASE = 'https://canvas.shroomffee.ai/api';
+
+var allProducts = [];
+var activeFilters = { community: 'all', productType: 'all' };
+var currentPage = 1;
+var productsPerPage = 24;
+var currentView = 'grid';
+var priceRange = { min: null, max: null };
+
+// DARK MODE (batch 91-100)
+function toggleDarkMode() {
+  document.body.classList.toggle('dark');
+  var isDark = document.body.classList.contains('dark');
+  try { localStorage.setItem('uns_shop_dark', isDark ? '1' : '0'); } catch(e) {}
+}
+(function loadDarkPref() {
+  try { if (localStorage.getItem('uns_shop_dark') === '1') document.body.classList.add('dark'); } catch(e) {}
+})();
+
+// VIEW TOGGLE
+function setView(view) {
+  currentView = view;
+  var grid = document.getElementById('productGrid');
+  if (view === 'list') {
+    grid.classList.add('list-view');
+    document.getElementById('gridViewBtn').classList.remove('active');
+    document.getElementById('listViewBtn').classList.add('active');
+  } else {
+    grid.classList.remove('list-view');
+    document.getElementById('gridViewBtn').classList.add('active');
+    document.getElementById('listViewBtn').classList.remove('active');
+  }
+}
+
+// PRICE RANGE FILTER
+function applyPriceRange() {
+  var minVal = document.getElementById('priceMin').value;
+  var maxVal = document.getElementById('priceMax').value;
+  priceRange.min = (minVal !== '' && !isNaN(parseFloat(minVal))) ? parseFloat(minVal) : null;
+  priceRange.max = (maxVal !== '' && !isNaN(parseFloat(maxVal))) ? parseFloat(maxVal) : null;
+  currentPage = 1;
+  renderProducts();
+}
+
+// STICKY FILTER BAR
+window.addEventListener('scroll', function() {
+  var filterBar = document.querySelector('.filter-bar');
+  if (!filterBar) return;
+  var rect = filterBar.parentNode.getBoundingClientRect();
+  if (rect.top < 0) {
+    filterBar.classList.add('sticky');
+  } else {
+    filterBar.classList.remove('sticky');
+  }
+});
+
+function apiGet(url) {
+  return fetch(API_BASE + url).then(function(r) {
+    if (!r.ok) throw new Error('API error: ' + r.status);
+    return r.json();
+  });
+}
+
+function setFilter(btn) {
+  var filterType = btn.getAttribute('data-filter');
+  var value = btn.getAttribute('data-value');
+  activeFilters[filterType] = value;
+  // Update active class
+  var siblings = document.querySelectorAll('[data-filter="' + filterType + '"]');
+  for (var i = 0; i < siblings.length; i++) {
+    siblings[i].classList.remove('active');
+  }
+  btn.classList.add('active');
+  currentPage = 1;
+  loadProducts();
+}
+
+function loadProducts() {
+  var query = '?';
+  if (activeFilters.community !== 'all') query += '&community=' + activeFilters.community;
+  if (activeFilters.productType !== 'all') query += '&productType=' + activeFilters.productType;
+  var sortSel = document.getElementById('sortSelect');
+  if (sortSel && sortSel.value !== 'default') query += '&sort=' + sortSel.value;
+
+  var grid = document.getElementById('productGrid');
+  grid.innerHTML = '<div class="loading"><div class="spinner"></div>Loading products...</div>';
+
+  apiGet('/products' + query).then(function(data) {
+    allProducts = data.products;
+    document.getElementById('countBadge').textContent = allProducts.length + ' products available';
+    // Batch 91-100: product count in page title
+    document.title = 'Shop All Sweaters (' + allProducts.length + ' products) - UglyNavySweater.com';
+    var counter = document.getElementById('productCounter');
+    if (counter) counter.firstChild.textContent = 'Showing 1-' + Math.min(productsPerPage, allProducts.length) + ' of ' + allProducts.length + ' products ';
+    renderProducts();
+  }).catch(function(err) {
+    grid.innerHTML = '<div class="no-results"><h3>Unable to load products</h3><p>Please try again in a moment.</p></div>';
+    console.error(err);
+  });
+}
+
+function renderProducts() {
+  var grid = document.getElementById('productGrid');
+
+  // Apply price range filtering on top of API results
+  var filteredProducts = allProducts;
+  if (priceRange.min !== null || priceRange.max !== null) {
+    filteredProducts = allProducts.filter(function(p) {
+      var price = p.price || 0;
+      if (priceRange.min !== null && price < priceRange.min) return false;
+      if (priceRange.max !== null && price > priceRange.max) return false;
+      return true;
+    });
+  }
+
+  if (filteredProducts.length === 0) {
+    // Batch 91-100: No results illustration
+    grid.innerHTML = '<div class="no-results">' +
+      '<div class="no-results-illustration"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="3"/><path d="M12 8v13M5 12l7-3 7 3M5 12c0 0 2 6 7 9 5-3 7-9 7-9"/></svg></div>' +
+      '<h3>No Sweaters Found</h3>' +
+      '<p class="no-results-subtitle">All hands searched the bilges, but nothing matched your filters.</p>' +
+      '<button class="no-results-reset" onclick="resetFilters()">Clear All Filters</button>' +
+      '</div>';
+    document.getElementById('pagination').style.display = 'none';
+    var counter = document.getElementById('productCounter');
+    if (counter) counter.firstChild.textContent = 'Showing 0 of 0 products ';
+    var prd = document.getElementById('priceRangeDisplay');
+    if (prd) prd.style.display = 'none';
+    return;
+  }
+
+  // Batch 91-100: Price range display showing min-max of filtered results
+  var minPrice = Infinity, maxPrice = 0;
+  for (var pi = 0; pi < filteredProducts.length; pi++) {
+    var pp = filteredProducts[pi].price || 0;
+    if (pp < minPrice) minPrice = pp;
+    if (pp > maxPrice) maxPrice = pp;
+  }
+  var prd = document.getElementById('priceRangeDisplay');
+  var prv = document.getElementById('priceRangeValue');
+  if (prd && prv && filteredProducts.length > 0) {
+    prv.textContent = '$' + minPrice.toFixed(2) + ' - $' + maxPrice.toFixed(2);
+    prd.style.display = 'inline-flex';
+  }
+
+  var totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  if (currentPage > totalPages) currentPage = 1;
+  var start = (currentPage - 1) * productsPerPage;
+  var end = Math.min(start + productsPerPage, filteredProducts.length);
+  var pageProducts = filteredProducts.slice(start, end);
+
+  // Product counter (batch 91-100: preserve price range display child)
+  var counter = document.getElementById('productCounter');
+  if (counter) counter.firstChild.textContent = 'Showing ' + (start + 1) + '-' + end + ' of ' + filteredProducts.length + ' products ';
+
+  // Page transition animation
+  grid.classList.add('page-transition');
+  setTimeout(function() {
+  var html = '';
+  for (var i = 0; i < pageProducts.length; i++) {
+    var p = pageProducts[i];
+    var primaryImage = p.primaryImage || (p.images && p.images.length > 0 ? p.images[0] : '');
+    if (primaryImage && primaryImage.indexOf('cdn.shopify.com') > -1 && primaryImage.indexOf('width=') === -1) {
+      primaryImage = primaryImage + '&width=500';
+    }
+    var commClass = 'tag-' + (p.community || 'surface');
+    var commLabel = p.commLabel || p.community || '';
+    var typeLabel = (p.variantLabel || p.productType || '').replace(/-/g, ' ');
+    var sizes = p.sizes || [];
+
+    html += '<div class="product-card" onclick="openQuickView(' + p.id + ')">' +
+      '<div class="product-visual">';
+    if (primaryImage) {
+      html += '<img src="' + primaryImage + '" alt="' + escapeHtml(p.name) + '" loading="lazy">';
+    } else {
+      html += '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--navy);color:var(--gold);font-family:var(--font-display);font-size:2rem;">' + escapeHtml((p.shipClass || p.name || '').substring(0, 20)) + '</div>';
+    }
+    html += '<div class="product-badge">' + escapeHtml(typeLabel) + '</div>' +
+      '</div>' +
+      '<div class="product-info">' +
+        '<div class="product-name">' + escapeHtml(p.name) + '</div>' +
+        '<span class="community-tag ' + commClass + '">' + escapeHtml(commLabel) + '</span>' +
+        '<div class="product-type-label">' + escapeHtml(typeLabel) + '</div>' +
+        '<div class="product-price-row">' +
+          '<span class="product-price">$' + (p.price || 0).toFixed(2) + '</span>' +
+          '<span class="product-sizes">' + sizes.length + ' sizes</span>' +
+        '</div>' +
+        '<div class="product-actions">' +
+          '<button class="btn btn-navy btn-sm" onclick="event.stopPropagation();openQuickView(' + p.id + ')">Quick View</button>' +
+          (p.shopifyUrl ? '<a href="' + p.shopifyUrl + '" target="_blank" class="btn btn-primary btn-sm" onclick="event.stopPropagation()">Buy Now</a>' : '<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openQuickView(' + p.id + ')">View</button>') +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+  grid.innerHTML = html;
+  grid.classList.remove('page-transition');
+  }, 150);
+
+  // Pagination
+  var pagination = document.getElementById('pagination');
+  if (totalPages > 1) {
+    pagination.style.display = 'flex';
+    document.getElementById('pageInfo').textContent = 'Page ' + currentPage + ' of ' + totalPages + ' (' + filteredProducts.length + ' products)';
+    document.getElementById('prevBtn').disabled = currentPage === 1;
+    document.getElementById('nextBtn').disabled = currentPage === totalPages;
+  } else {
+    pagination.style.display = 'none';
+  }
+}
+
+function changePage(dir) {
+  currentPage += dir;
+  var grid = document.getElementById('productGrid');
+  grid.classList.add('page-transition');
+  setTimeout(function() {
+    renderProducts();
+    window.scrollTo({ top: document.querySelector('.product-section').offsetTop - 80, behavior: 'smooth' });
+  }, 200);
+}
+
+function openQuickView(id) {
+  var p = null;
+  for (var i = 0; i < allProducts.length; i++) {
+    if (allProducts[i].id === id) { p = allProducts[i]; break; }
+  }
+  if (!p) return;
+
+  var primaryImage = p.primaryImage || (p.images && p.images.length > 0 ? p.images[0] : '');
+  if (primaryImage && primaryImage.indexOf('cdn.shopify.com') > -1 && primaryImage.indexOf('width=') === -1) {
+    primaryImage = primaryImage + '&width=600';
+  }
+  var sizes = p.sizes || [];
+  var sizesHtml = '';
+  for (var s = 0; s < sizes.length; s++) {
+    sizesHtml += '<button class="qv-size" onclick="selectSize(this)">' + escapeHtml(sizes[s]) + '</button>';
+  }
+
+  document.getElementById('qvImage').innerHTML = 
+    '<button class="qv-close" onclick="closeQuickView()">&times;</button>' +
+    (primaryImage ? '<img src="' + primaryImage + '" alt="' + escapeHtml(p.name) + '">' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--navy);color:var(--gold);font-family:var(--font-display);font-size:2rem;">' + escapeHtml((p.shipClass || '').substring(0, 20)) + '</div>');
+
+  var detailsHtml = '';
+  detailsHtml += '<div><span class="community-tag tag-' + (p.community || 'surface') + '">' + escapeHtml(p.commLabel || '') + '</span></div>';
+  detailsHtml += '<h2>' + escapeHtml(p.name) + '</h2>';
+  detailsHtml += '<p class="qv-desc">' + escapeHtml(p.desc || 'Premium Navy ugly Christmas sweater.') + '</p>';
+  if (p.shipClass) detailsHtml += '<p class="qv-desc"><strong>Ship Class:</strong> ' + escapeHtml(p.shipClass) + '</p>';
+  if (p.variantLabel) detailsHtml += '<p class="qv-desc"><strong>Type:</strong> ' + escapeHtml(p.variantLabel) + '</p>';
+  if (sizes.length > 0) detailsHtml += '<div class="qv-sizes">' + sizesHtml + '</div>';
+  detailsHtml += '<div class="qv-price">$' + (p.price || 0).toFixed(2) + '</div>';
+  detailsHtml += '<div class="product-actions">' +
+    (p.shopifyUrl ? '<a href="' + p.shopifyUrl + '" target="_blank" class="btn btn-primary">Buy on Harvest Market</a>' : '') +
+    '<button class="btn btn-outline" onclick="closeQuickView()">Close</button>' +
+  '</div>';
+  if (p.tags) detailsHtml += '<p class="qv-desc" style="font-size:0.78rem;margin-top:8px;">Tags: ' + escapeHtml(p.tags) + '</p>';
+
+  document.getElementById('qvDetails').innerHTML = detailsHtml;
+  document.getElementById('quickViewModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  // Batch 91-100: Track recently viewed
+  addToRecentlyViewed(p);
+}
+
+function closeQuickView(event) {
+  if (event && event.target !== document.getElementById('quickViewModal')) return;
+  document.getElementById('quickViewModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function selectSize(btn) {
+  var siblings = btn.parentNode.querySelectorAll('.qv-size');
+  for (var i = 0; i < siblings.length; i++) siblings[i].classList.remove('selected');
+  btn.classList.add('selected');
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// BATCH 91-100: Reset all filters
+function resetFilters() {
+  activeFilters = { community: 'all', productType: 'all' };
+  priceRange = { min: null, max: null };
+  currentPage = 1;
+  // Reset filter button states
+  var allBtns = document.querySelectorAll('.filter-btn');
+  for (var i = 0; i < allBtns.length; i++) {
+    allBtns[i].classList.remove('active');
+    if (allBtns[i].getAttribute('data-value') === 'all') allBtns[i].classList.add('active');
+  }
+  // Reset price inputs
+  var pMin = document.getElementById('priceMin');
+  var pMax = document.getElementById('priceMax');
+  if (pMin) pMin.value = '';
+  if (pMax) pMax.value = '';
+  // Reset sort
+  var sortSel = document.getElementById('sortSelect');
+  if (sortSel) sortSel.value = 'default';
+  loadProducts();
+}
+
+// BATCH 91-100: Recently viewed products
+function addToRecentlyViewed(product) {
+  if (!product || !product.id) return;
+  var viewed = [];
+  try { viewed = JSON.parse(localStorage.getItem('uns_recently_viewed') || '[]'); } catch(e) { viewed = []; }
+  // Remove if already exists
+  viewed = viewed.filter(function(item) { return item.id !== product.id; });
+  // Add to front
+  viewed.unshift({
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    primaryImage: product.primaryImage || (product.images && product.images.length > 0 ? product.images[0] : ''),
+    community: product.community,
+    commLabel: product.commLabel
+  });
+  // Keep max 8
+  if (viewed.length > 8) viewed = viewed.slice(0, 8);
+  try { localStorage.setItem('uns_recently_viewed', JSON.stringify(viewed)); } catch(e) {}
+  renderRecentlyViewed();
+}
+
+function renderRecentlyViewed() {
+  var section = document.getElementById('recentlyViewedSection');
+  var grid = document.getElementById('recentlyViewedGrid');
+  if (!section || !grid) return;
+  var viewed = [];
+  try { viewed = JSON.parse(localStorage.getItem('uns_recently_viewed') || '[]'); } catch(e) { viewed = []; }
+  if (viewed.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = 'block';
+  var html = '';
+  for (var i = 0; i < viewed.length; i++) {
+    var p = viewed[i];
+    var img = p.primaryImage || '';
+    if (img && img.indexOf('cdn.shopify.com') > -1 && img.indexOf('width=') === -1) {
+      img = img + '&width=300';
+    }
+    html += '<div class="recently-viewed-card" onclick="openQuickView(' + p.id + ')">' +
+      '<div class="recently-viewed-visual">' +
+        (img ? '<img src="' + img + '" alt="' + escapeHtml(p.name) + '" loading="lazy">' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--navy);color:var(--gold);font-family:var(--font-display);font-size:1.5rem;">UNS</div>') +
+      '</div>' +
+      '<div class="recently-viewed-info">' +
+        '<div class="recently-viewed-name">' + escapeHtml(p.name) + '</div>' +
+        '<div class="recently-viewed-price">$' + (p.price || 0).toFixed(2) + '</div>' +
+      '</div>' +
+    '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+// Init
+renderRecentlyViewed();
+loadProducts();
+</script>
+</body>
+</html>

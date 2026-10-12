@@ -1,0 +1,17 @@
+{
+  "name": "UglyNavySweater.com",
+  "short_name": "Ugly Navy",
+  "description": "Ugly Enough to Win the Party. Navy Enough to Get the Joke.",
+  "start_url": "/ugly-navy-sweater/",
+  "scope": "/ugly-navy-sweater/",
+  "display": "standalone",
+  "background_color": "#0a1f3c",
+  "theme_color": "#c41e3a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' fill='%230a1f3c'/%3E%3Ctext x='96' y='130' font-family='Arial' font-size='120' fill='%23c41e3a' text-anchor='middle'%3E%E2%9A%93%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ugly-navy-sweater-api",
+  "version": "1.0.0",
+  "description": "Headless API for UglyNavySweater.com",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "cors": "^2.8.5"
+  }
+}
