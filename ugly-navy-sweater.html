@@ -1200,6 +1200,16 @@ body.dark .shimmer-bg { background: linear-gradient(90deg, #0a1018 0%, #15202e 5
 .load-more-btn { padding: 14px 40px; border-radius: var(--radius); background: var(--navy); color: var(--white); font-family: var(--font-heading); font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; border: none; transition: var(--transition); }
 .load-more-btn:hover { background: var(--navy-3); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(10,31,60,0.2); }
 .load-more-btn:disabled { opacity: 0.5; cursor: default; transform: none; box-shadow: none; }
+.pagination-wrap { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 24px 0 8px; flex-wrap: wrap; }
+.page-numbers { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.page-num { min-width: 38px; height: 38px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); color: var(--navy); font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; padding: 0 10px; }
+.page-num:hover { border-color: var(--navy); background: var(--navy-1); }
+.page-num.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+.page-num.ellipsis { border: none; cursor: default; background: transparent; }
+.page-num.ellipsis:hover { background: transparent; border: none; }
+.page-arrow { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); color: var(--navy); font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: var(--transition); }
+.page-arrow:hover { border-color: var(--navy); background: var(--navy-1); }
+.page-arrow:disabled { opacity: 0.4; cursor: default; }
 
 /* INFINITE SCROLL SENTINEL */
 .inf-scroll-sentinel { height: 60px; display: flex; align-items: center; justify-content: center; }
@@ -2753,6 +2763,8 @@ body.tab-hidden .order-ticker-dot {
     <div class="sort-bar fade-up">
       <span class="sort-label">Sort by:</span>
       <select class="sort-select" id="sortSelect" onchange="onSortChange()">
+        <option value="newest" selected>Newest First</option>
+        <option value="oldest">Oldest First</option>
         <option value="default">Fleet Order</option>
         <option value="price-low">Price: Low to High</option>
         <option value="price-high">Price: High to Low</option>
@@ -3176,8 +3188,10 @@ body.tab-hidden .order-ticker-dot {
       </div>
     </div>
     </div>
-    <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
-      <button class="load-more-btn" id="loadMoreBtn" onclick="loadMoreProducts()">Load More Sweaters</button>
+    <div class="pagination-wrap" id="paginationWrap" style="display:none;">
+      <button class="page-arrow" id="pagePrev" onclick="changePage(-1)">&#8592; Prev</button>
+      <div class="page-numbers" id="pageNumbers"></div>
+      <button class="page-arrow" id="pageNext" onclick="changePage(1)">Next &#8594;</button>
     </div>
     <div class="inf-scroll-sentinel" id="infScrollSentinel" style="display:none;">
       <div class="inf-scroll-spinner"></div>
@@ -3846,9 +3860,11 @@ var products = []; // populated from API
 var apiCollections = [];
 var apiContest = null;
 var currentGridLayout = 'grid';
-var initialLoadCount = 20;
-var currentLoadCount = 20;
-var totalProductCount = 107; // default, updated from API
+var initialLoadCount = 24; // products per page
+var currentLoadCount = 24;
+var totalProductCount = 118; // default, updated from API
+var currentPage = 1;
+var allFilteredProducts = []; // full filtered list before pagination
 var infScrollLoading = false;
 var infScrollExhausted = false;
 
@@ -3872,23 +3888,96 @@ function updateSortIndicator() {
   if (!sel || !ind) return;
   var val = sel.value;
   var arrow = '';
-  if (val === 'price-low' || val === 'ugly-low') arrow = ' &#8593;'; // ascending
-  else if (val === 'price-high' || val === 'ugly-high' || val === 'rating') arrow = ' &#8595;'; // descending
+  if (val === 'price-low' || val === 'ugly-low' || val === 'oldest') arrow = ' &#8593;'; // ascending
+  else if (val === 'price-high' || val === 'ugly-high' || val === 'rating' || val === 'newest') arrow = ' &#8595;'; // descending
   ind.innerHTML = arrow;
 }
 
 function updateProductCount() {
   var el = document.getElementById('homeProductCount');
   if (!el) return;
+  var totalPages = Math.ceil(totalProductCount / initialLoadCount);
   var shown = products.length;
-  el.textContent = 'Showing ' + shown + ' of ' + totalProductCount + ' products';
+  var startIdx = (currentPage - 1) * initialLoadCount + 1;
+  var endIdx = startIdx + shown - 1;
+  el.textContent = 'Showing ' + startIdx + '-' + endIdx + ' of ' + totalProductCount + ' products | Page ' + currentPage + ' of ' + totalPages;
 }
 
 function loadMoreProducts() {
-  var btn = document.getElementById('loadMoreBtn');
-  if (btn) btn.disabled = true;
-  currentLoadCount += 20;
+  // Legacy: now handled by pagination
+  changePage(1);
+}
+
+function changePage(dir) {
+  var totalPages = Math.ceil(allFilteredProducts.length / initialLoadCount);
+  var newPage = (typeof dir === 'number') ? currentPage + dir : 1;
+  if (newPage < 1) newPage = 1;
+  if (newPage > totalPages) newPage = totalPages;
+  currentPage = newPage;
   renderProducts();
+  // Scroll to product grid top
+  var grid = document.getElementById('productGrid');
+  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function goToPage(pageNum) {
+  currentPage = pageNum;
+  renderProducts();
+  var grid = document.getElementById('productGrid');
+  if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderPagination(totalCount) {
+  var wrap = document.getElementById('paginationWrap');
+  var numbers = document.getElementById('pageNumbers');
+  var prevBtn = document.getElementById('pagePrev');
+  var nextBtn = document.getElementById('pageNext');
+  if (!wrap || !numbers) return;
+  
+  var totalPages = Math.ceil(totalCount / initialLoadCount);
+  if (totalPages <= 1) {
+    wrap.style.display = 'none';
+    return;
+  }
+  wrap.style.display = 'flex';
+  
+  // Prev/Next disabled states
+  if (prevBtn) prevBtn.disabled = (currentPage <= 1);
+  if (nextBtn) nextBtn.disabled = (currentPage >= totalPages);
+  
+  // Build page numbers with ellipsis for large page counts
+  var html = '';
+  var maxVisible = 7; // max page buttons visible
+  if (totalPages <= maxVisible) {
+    // Show all pages
+    for (var i = 1; i <= totalPages; i++) {
+      html += '<button class="page-num ' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>';
+    }
+  } else {
+    // Show pages with ellipsis
+    var start = Math.max(1, currentPage - 2);
+    var end = Math.min(totalPages, currentPage + 2);
+    
+    // Always show page 1
+    html += '<button class="page-num ' + (1 === currentPage ? 'active' : '') + '" onclick="goToPage(1)">1</button>';
+    
+    if (start > 2) {
+      html += '<span class="page-num ellipsis">...</span>';
+    }
+    
+    for (var i = start; i <= end; i++) {
+      if (i === 1 || i === totalPages) continue;
+      html += '<button class="page-num ' + (i === currentPage ? 'active' : '') + '" onclick="goToPage(' + i + ')">' + i + '</button>';
+    }
+    
+    if (end < totalPages - 1) {
+      html += '<span class="page-num ellipsis">...</span>';
+    }
+    
+    // Always show last page
+    html += '<button class="page-num ' + (totalPages === currentPage ? 'active' : '') + '" onclick="goToPage(' + totalPages + ')">' + totalPages + '</button>';
+  }
+  numbers.innerHTML = html;
 }
 
 function apiGet(path) {
@@ -3950,39 +4039,31 @@ function renderProducts() {
       filtered = filtered.filter(function(p) { return p.uglinessKey === activeFilters.ugliness; });
     }
     // Sort
-    if (sortVal === 'price-low') filtered.sort(function(a,b) { return (a.price||0) - (b.price||0); });
+    if (sortVal === 'newest') filtered.sort(function(a,b) { return (parseInt(b.shopifyId||'0')) - (parseInt(a.shopifyId||'0')); });
+    else if (sortVal === 'oldest') filtered.sort(function(a,b) { return (parseInt(a.shopifyId||'0')) - (parseInt(b.shopifyId||'0')); });
+    else if (sortVal === 'price-low') filtered.sort(function(a,b) { return (a.price||0) - (b.price||0); });
     else if (sortVal === 'price-high') filtered.sort(function(a,b) { return (b.price||0) - (a.price||0); });
     else if (sortVal === 'ugly-low') filtered.sort(function(a,b) { return (a.ugliness||0) - (b.ugliness||0); });
     else if (sortVal === 'ugly-high') filtered.sort(function(a,b) { return (b.ugliness||0) - (a.ugliness||0); });
-    // Limit
-    products = filtered.slice(0, currentLoadCount);
+    // Default sort: newest first (by shopifyId descending)
+    if (sortVal === 'default' || sortVal === '') filtered.sort(function(a,b) { return (parseInt(b.shopifyId||'0')) - (parseInt(a.shopifyId||'0')); });
+    
+    allFilteredProducts = filtered;
     totalProductCount = filtered.length;
+    // Paginate
+    var totalPages = Math.ceil(filtered.length / initialLoadCount);
+    if (currentPage > totalPages) currentPage = 1;
+    if (currentPage < 1) currentPage = 1;
+    var startIdx = (currentPage - 1) * initialLoadCount;
+    products = filtered.slice(startIdx, startIdx + initialLoadCount);
     updateProductCount();
     renderProductCards();
-    // Load more button
-    var loadMoreWrap = document.getElementById('loadMoreWrap');
-    var loadMoreBtn = document.getElementById('loadMoreBtn');
-    if (loadMoreWrap && loadMoreBtn) {
-      if (products.length < totalProductCount) {
-        loadMoreWrap.style.display = 'block';
-        loadMoreBtn.disabled = false;
-        loadMoreBtn.textContent = 'Load More Sweaters (' + (totalProductCount - products.length) + ' remaining)';
-      } else {
-        loadMoreWrap.style.display = 'none';
-      }
-    }
-    // Infinite scroll sentinel
+    // Render pagination
+    renderPagination(totalProductCount);
+    // Hide infinite scroll sentinel (replaced by pagination)
     var sentinel = document.getElementById('infScrollSentinel');
-    if (sentinel) {
-      if (products.length < totalProductCount) {
-        sentinel.style.display = 'flex';
-        infScrollExhausted = false;
-      } else {
-        sentinel.style.display = 'none';
-        infScrollExhausted = true;
-      }
-    }
-    console.log('Loaded ' + products.length + ' products from products.json');
+    if (sentinel) sentinel.style.display = 'none';
+    console.log('Loaded page ' + currentPage + ' of ' + totalPages + ' (' + products.length + ' products, ' + totalProductCount + ' total)');
   }).catch(function(err) {
     console.error('products.json failed, trying API:', err);
     // Fallback to API
@@ -4006,7 +4087,7 @@ function renderProducts() {
   });
 }
 
-function onSortChange() { currentLoadCount = initialLoadCount; renderProducts(); }
+function onSortChange() { currentPage = 1; renderProducts(); }
 
 // #5 INJECT DYNAMIC JSON-LD PRODUCT STRUCTURED DATA FOR SEO
 function injectProductJsonLD(productList) {
@@ -4396,7 +4477,7 @@ function setFilter(btn) {
   var group = document.querySelectorAll('[data-filter="' + filterType + '"]');
   for (var i = 0; i < group.length; i++) group[i].classList.remove('active');
   btn.classList.add('active');
-  currentLoadCount = initialLoadCount;
+  currentPage = 1;
   applyFilters();
 }
 function applyFilters() {
@@ -8756,8 +8837,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var infObs = new IntersectionObserver(function(entries) {
       if (entries[0].isIntersecting && !infScrollLoading && !infScrollExhausted) {
         infScrollLoading = true;
-        currentLoadCount += 20;
-        renderProducts();
+        changePage(1); // pagination handles this now
         setTimeout(function() { infScrollLoading = false; }, 800);
       }
     }, { rootMargin: '200px' });

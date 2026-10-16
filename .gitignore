@@ -1,4 +1,6 @@
-*.bak*
 node_modules/
+backend/node_modules/
+*.bak*
+*.log
 .env
-custom-requests.json
+.DS_Store
